@@ -28,10 +28,9 @@ async function findFlights(origin, destination, biggerdate, smallerdate) {
 
     dayjs.extend(customParseFormat);
 
+    if (biggerdate && smallerdate) {
     const formattedbigger = dayjs(biggerdate, 'DD-MM-YYYY').format('YYYY-MM-DD');
     const formattedsmaller = dayjs(smallerdate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-
-
 
     const result = await db.query(`
     SELECT flights.id, origin.name AS origin, destination.name AS destination, date
@@ -45,6 +44,20 @@ async function findFlights(origin, destination, biggerdate, smallerdate) {
 `, [formattedbigger, formattedsmaller, origin, destination])
 
     return result.rows
+
+
+    } else {
+
+
+
+    const result = await db.query(`
+    SELECT flights.id, origin.name AS origin, destination.name AS destination, date
+    FROM flights
+    JOIN cities AS origin ON origin.id = flights.origin
+    JOIN cities AS destination ON destination.id = flights.destination
+`)
+
+    return result.rows }
 
     
     }
