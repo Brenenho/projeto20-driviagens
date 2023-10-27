@@ -15,7 +15,9 @@ async function createFlight(origin, destination, date) {
     if (origin === destination) throw errors.conflict()
 
 
-    await flightsRepository.createFlight(origin, destination, date)
+    const flight = await flightsRepository.createFlight(origin, destination, date)
+
+    return flight
 
 }
 
@@ -25,7 +27,9 @@ async function createCities(name) {
 
     if (cityExists) throw errors.exists(name)
 
-    await flightsRepository.createCities(name)
+    const cities = await flightsRepository.createCities(name)
+
+    return cities
 
 }
 

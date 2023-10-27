@@ -8,8 +8,10 @@ async function createFlight(req, res) {
 
     const { origin, destination, date } = req.body
     console.log(origin, destination, date)
-    await flightsService.createFlight(origin, destination, date)
-    res.sendStatus(httpStatus.CREATED)
+    const flight = await flightsService.createFlight(origin, destination, date)
+
+    res.status(httpStatus.CREATED).send({id: flight.id, origin, destination, date})
+    
 
 }
 
@@ -17,8 +19,10 @@ async function createCities(req, res) {
 
     const { name } = req.body
 
-    await flightsService.createCities(name)
-    res.sendStatus(httpStatus.CREATED)
+   const cities = await flightsService.createCities(name)
+
+
+    res.status(httpStatus.CREATED).send(cities)
 
 }
 

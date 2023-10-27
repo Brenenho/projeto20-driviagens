@@ -2,14 +2,21 @@ import { db } from "../configs/db.connection.js"
 
 async function createPassenger(firstName, lastName) {
 
-    await db.query(`INSERT INTO passengers ("firstName", "lastName") VALUES ($1, $2)`, [firstName, lastName])
-    
+   const passenger = await db.query(`INSERT INTO passengers ("firstName", "lastName") VALUES ($1, $2) RETURNING id`, [firstName, lastName])
+
+   const createdPassengerId = passenger.rows[0].id
+   
+    return createdPassengerId 
 }
 
 async function createTravel(passengerId, flightId) {
 
-    await db.query(`INSERT INTO travels ("passengerId", "flightId") VALUES ($1, $2)`, [passengerId, flightId])
+    const travel = await db.query(`INSERT INTO travels ("passengerId", "flightId") VALUES ($1, $2) RETURNING id, "passengerId", "flightId"`, [passengerId, flightId])
     
+    const createdTravel = travel.rows[0]
+
+    return createdTravel
+
 }
 
 async function findTravel(name) {

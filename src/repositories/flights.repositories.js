@@ -13,13 +13,16 @@ async function createFlight(origin, destination, date) {
 
     console.log(formattedDate)
 
-    await db.query(`INSERT INTO flights (origin, destination, date) VALUES ($1, $2, $3)`, [origin, destination, formattedDate])
+    const flight = await db.query(`INSERT INTO flights (origin, destination, date) VALUES ($1, $2, $3) RETURNING id, origin, destination, date`, [origin, destination, formattedDate])
     
+    return flight.rows[0]
 }
 
 async function createCities(name) {
 
-    await db.query(`INSERT INTO cities (name) VALUES ($1)`, [name])
+   const cities = await db.query(`INSERT INTO cities (name) VALUES ($1) RETURNING id, name`, [name])
+
+    return cities.rows[0]
     
 }
 

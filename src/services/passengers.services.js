@@ -3,8 +3,9 @@ import { passengersRepository } from "../repositories/passengers.repositories.js
 
 async function createPassenger(firstName, lastName) {
 
-    await passengersRepository.createPassenger(firstName, lastName)
+  const id = await passengersRepository.createPassenger(firstName, lastName)
        
+  return id
 }
 
 async function createTravel(passengerId, flightId) {
@@ -16,7 +17,9 @@ async function createTravel(passengerId, flightId) {
         if (!flight) throw errors.notFound("Voo")
     
 
-    await passengersRepository.createTravel(passengerId, flightId)
+    const travel = await passengersRepository.createTravel(passengerId, flightId)
+
+    return travel
     
 }
 
